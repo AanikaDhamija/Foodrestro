@@ -1,4 +1,4 @@
-<style>
+<stylei>
 /*
 ==========================================
  form section Design
@@ -19,6 +19,71 @@
 
 }
 </style>
+
+
+<!-- Script for searching and scrolling -->
+<script>
+    document.getElementById('search-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const searchInput = document.getElementById('search-input').value.toUpperCase();
+        let found = false;
+
+        // Select elements to search within
+        const itemsToSearch = document.querySelectorAll('.cat-title a');
+
+        itemsToSearch.forEach(item => {
+            const itemName = item.textContent.toUpperCase();
+
+            // Check if the item exactly matches the search query
+            if (itemName === searchInput) {
+                // Get the parent card element and scroll to it
+                const card = item.closest('.card');
+                card.scrollIntoView({ behavior: 'smooth' });
+
+                // Highlight the found item
+                item.style.backgroundColor = 'green';
+
+                found = true;
+            } else {
+                // Remove highlighting from other items
+                item.style.backgroundColor = ''; // Remove background color
+            }
+        });
+
+        if (!found) {
+            alert('Item not found!');
+        }
+    });
+</script>
+<script>
+  function calculateTotal() {
+    var checkboxes = document.querySelectorAll('input[name="menu-item"]');
+    var totalQuantity = 0;
+    var totalPrice = 0;
+
+    checkboxes.forEach(function (checkbox) {
+      if (checkbox.checked) {
+        var itemName = checkbox.id.slice(0, 1).toUpperCase() + checkbox.id.slice(1);
+        var quantityInput = document.getElementById('quantity' + itemName);
+        var quantity = parseFloat(quantityInput.value);
+
+        // Check if the quantity is non-negative before including it in the total calculations
+        if (quantity >= 0) {
+          totalQuantity += quantity;
+          totalPrice += quantity * parseFloat(checkbox.getAttribute('data-price'));
+        } else {
+          // Display an alert for negative quantity
+          alert('Please enter a non-negative quantity for ' + itemName + '.');
+          // Reset the quantity input to 0
+          quantityInput.value = 0;
+        }
+      }
+    });
+
+    document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+    document.getElementById('total-quantity').textContent = totalQuantity;
+  }
+</script>
 
 
 <!--section-4 form-->
